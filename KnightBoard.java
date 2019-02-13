@@ -80,6 +80,20 @@ public class KnightBoard{
      board[nrow][ncol] += counter++ + 1;
      return true;
    }
+
  }
 
+public boolean unMoveKnight(){
+    for(int r = 0; r < board.length; r++){
+      for( int c = 0; c < board[r].length; r++){
+        if(board[r][c] == counter){
+          counter--;
+          board[r][c] = 0;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  
 }

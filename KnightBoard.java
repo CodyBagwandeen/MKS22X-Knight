@@ -13,15 +13,26 @@ public class KnightBoard{
 
     System.out.println("Testing adding a Knight to the board");
     System.out.println("k.addKnight(0,0) : Should be true");
-    k.addKnight(0,0);
+    System.out.println(k.addKnight(0,0));
+    System.out.println("k.addKnight(2,1) : Should be true");
+    System.out.println(k.addKnight(2,1));
+    System.out.println("k.addKnight(3,3) : Should be true");
+    System.out.println(k.addKnight(3,3));
     System.out.println("k\n");
     System.out.println(k);
 
     System.out.println("Testing adding a Knight to a place outisde of the board");
     System.out.println("k.addKnight(-1,0) : Should be false");
-    k.addKnight(-1,0);
+    System.out.println(k.addKnight(-1,0));
     System.out.println("k\n");
     System.out.println(k);
+
+    System.out.println("Testing adding a Knight to a place that has already been travled on");
+    System.out.println("k.addKnight(0,0)");
+    System.out.println(k.addKnight(0,0));
+    System.out.println("k\n");
+    System.out.println(k);
+
 
   }
 
@@ -108,7 +119,16 @@ public class KnightBoard{
    if( counter == board[row].length * board.length){
      return true;
    } else{
-
+     int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
+     for(int i = 0; i < 15; i += 2){
+       if( addKnight(row + moves[i], col + moves[i+1])){
+         if(solveR(row + moves[i], col + moves[i+1])){
+           return true;
+         } else{
+           removeKnight(row + moves[i], col + moves[i+1]);
+         }
+       }
+     }
    }
    return false;
 

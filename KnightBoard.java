@@ -8,8 +8,11 @@ public class KnightBoard{
     KnightBoard k = new KnightBoard(4,4);
 
     System.out.println("Testing toString on a blank board");
-    System.out.println("k");
+    System.out.println("k\n");
     System.out.println(k);
+
+    System.out.println("Testing adding a Knight to the board");
+    System.out.println("k.addKnight()");
 
   }
 
@@ -102,14 +105,14 @@ public class KnightBoard{
 
  }
 
- public boolean addKnight(int srow, int scol, int nrow, int ncol){
-   if(srow + nrow >= board.length || srow - nrow < 0 || scol + ncol >= board[0].length || scol - ncol < 0){
+ public boolean addKnight(int row, int col){
+   if(row >= board.length || row < 0 || col >= board[0].length || col < 0){
      return false;
    } else{
-     if(board[nrow][ncol] != 0){
+     if(board[row][col] != 0){
        return false;
      }else{
-       board[nrow][ncol] = counter++ + 1;
+       board[row][col] = counter++ + 1;
        return true;
      }
    }

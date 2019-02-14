@@ -10,6 +10,7 @@ public class KnightBoard{
       throw new IllegalArgumentException();
     } else {
       board = new int[startingRows][startingCols];
+      counter = 1;
     }
 
   }
@@ -58,6 +59,7 @@ public class KnightBoard{
       }
       return output;
     }
+
   }
 
  /*
@@ -68,32 +70,53 @@ public class KnightBoard{
  @returns true when the board is solvable from the specified starting position
  */
  public boolean solve(int startingRow, int startingCol){
-   // do the solving thing
-   counter = 1;
-   return true;
+   if(startingRow <0 || startingCol <0){
+     throw new IllegalArgumentException();
+   }
+   for(int r = 0; r < board.length; r++){
+     for( int c = 0; c < board[r].length; c++){
+       if( board[r][c] != 0){
+         throw new IllegalStateException();
+       }
+     }
+   }
+   return solveR(startingRow,startingCol);
+
  }
 
- public boolean moveKnight(int srow, int scol, int nrow, int ncol){
+ public boolean solveR(int row, int col){
+   if( counter == board[row].length * board.length){
+     return true;
+   } else{
+
+   }
+   return false;
+
+ }
+
+ public boolean addKnight(int srow, int scol, int nrow, int ncol){
    if(srow + nrow >= board.length || srow - nrow < 0 || scol + ncol >= board[0].length || scol - ncol < 0){
      return false;
    } else{
-     board[nrow][ncol] += counter++ + 1;
-     return true;
+     if(board[nrow][ncol] != 0){
+       return false;
+     }else{
+       board[nrow][ncol] = counter++ + 1;
+       return true;
+     }
    }
 
  }
 
-public boolean unMoveKnight(){
-    for(int r = 0; r < board.length; r++){
-      for( int c = 0; c < board[r].length; r++){
-        if(board[r][c] == counter){
-          counter--;
-          board[r][c] = 0;
-          return true;
-        }
-      }
+public boolean removeKnight(int row, int col){
+    if(board[row][col] != counter){
+      return false;
+    } else{
+      board[row][col] = 0;
+      counter--;
+      return true;
     }
-    return false;
+    
   }
-  
+
 }

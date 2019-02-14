@@ -3,6 +3,14 @@ public class KnightBoard{
   private int counter;
   public static void main(String[] args){
 
+    System.out.println("Initializing a 4 x 4 board : k");
+    System.out.println("KnightBoard k = new KnightBoard(4,4)");
+    KnightBoard k = new KnightBoard(4,4);
+
+    System.out.println("Testing toString on a blank board");
+    System.out.println("k");
+    System.out.println(k);
+
   }
 
   public KnightBoard(int startingRows, int startingCols){
@@ -24,7 +32,7 @@ public class KnightBoard{
           blank = false;
         }
         boutput+= "_ ";
-        if(c == board[r].length){
+        if(c == board[r].length - 1){
           boutput += "\n";
         }
       }
@@ -116,7 +124,7 @@ public boolean removeKnight(int row, int col){
       counter--;
       return true;
     }
-    
+
   }
 
 }

@@ -17,6 +17,12 @@ public class KnightBoard{
     System.out.println("k\n");
     System.out.println(k);
 
+    System.out.println("Testing adding a Knight to a place outisde of the board");
+    System.out.println("k.addKnight(-1,0) : Should be false");
+    k.addKnight(-1,0);
+    System.out.println("k\n");
+    System.out.println(k);
+
   }
 
   public KnightBoard(int startingRows, int startingCols){

@@ -12,7 +12,10 @@ public class KnightBoard{
     System.out.println(k);
 
     System.out.println("Testing adding a Knight to the board");
-    System.out.println("k.addKnight()");
+    System.out.println("k.addKnight(0,0) : Should be true");
+    k.addKnight(0,0);
+    System.out.println("k\n");
+    System.out.println(k);
 
   }
 
@@ -21,7 +24,7 @@ public class KnightBoard{
       throw new IllegalArgumentException();
     } else {
       board = new int[startingRows][startingCols];
-      counter = 1;
+      counter = 0;
     }
 
   }

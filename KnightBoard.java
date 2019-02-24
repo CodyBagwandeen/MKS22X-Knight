@@ -33,6 +33,26 @@ public class KnightBoard{
     System.out.println("k\n");
     System.out.println(k);
 
+    System.out.println("Making a new board 5 x 5");
+    System.out.println("KnightBoard k2 = new KnightBoard5,5)");
+    KnightBoard k2 = new KnightBoard(5,5);
+    System.out.println("Testing solving a board");
+    System.out.println("k2.solve()");
+    k2.solve(0,0);
+    System.out.println("k2\n");
+    System.out.println(k2);
+
+    System.out.println("Making a new board 5 x 5");
+    System.out.println("KnightBoard k3 = new KnightBoard(5,5)");
+    KnightBoard k3 = new KnightBoard(5,5);
+    System.out.println("Testing countSolutions on a board");
+    System.out.println("k2.countSolutions(0,0)");
+    System.out.println(k3.countSolutions(0,0));
+    System.out.println("k3\n");
+    System.out.println(k3);
+
+
+
 
   }
 
@@ -101,12 +121,12 @@ public class KnightBoard{
  @returns true when the board is solvable from the specified starting position
  */
  public boolean solve(int startingRow, int startingCol){
-   if(startingRow <0 || startingCol <0){
+   if(startingRow < 0 || startingCol < 0){
      throw new IllegalArgumentException();
    }
    for(int r = 0; r < board.length; r++){
-     for( int c = 0; c < board[r].length; c++){
-       if( board[r][c] != 0){
+     for(int c = 0; c < board[r].length; c++){
+       if(board[r][c] != 0){
          throw new IllegalStateException();
        }
      }
@@ -116,12 +136,12 @@ public class KnightBoard{
  }
 
  public boolean solveR(int row, int col){
-   if( counter == board[row].length * board.length){
+   if( counter == board[row].length * board.length - 1){
      return true;
    } else{
      int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
      for(int i = 0; i < 15; i += 2){
-       if( addKnight(row + moves[i], col + moves[i+1])){
+       if(addKnight(row + moves[i], col + moves[i+1])){
          if(solveR(row + moves[i], col + moves[i+1])){
            return true;
          } else{
@@ -132,6 +152,41 @@ public class KnightBoard{
    }
    return false;
 
+ }
+
+ /** would only work on smaller boards!
+  *@throws IllegalStateException when the board contains non-zero values.
+  *@throws IllegalArgumentException when either parameter is negative or out of bounds.
+  *@return the number of solutions from the starting position specified
+  */
+ public int countSolutions(int row, int col){
+   if(row < 0 || col < 0){
+     throw new IllegalArgumentException();
+   }
+   for(int r = 0; r < board.length; r++){
+     for(int c = 0; c < board[r].length; c++){
+       if(board[r][c] != 0){
+         throw new IllegalStateException();
+       }
+     }
+   }
+   return countH(row, col);
+ }
+
+ public int countH(int row, int col){
+   int sum = 0;
+   if( counter == board.length * board[0].length - 1){
+     return 1;
+   } else {
+     int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
+     for(int i = 0; i < 15; i += 2){
+       if(addKnight(row,col)){
+         sum += countH(row + moves[i], col + moves[i+1]);
+         removeKnight(row,col);
+       }
+     }
+   }
+   return sum;
  }
 
  public boolean addKnight(int row, int col){

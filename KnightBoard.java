@@ -3,36 +3,6 @@ public class KnightBoard{
   private int counter;
   public static void main(String[] args){
 
-    System.out.println("Initializing a 4 x 4 board : k");
-    System.out.println("KnightBoard k = new KnightBoard(4,4)");
-    KnightBoard k = new KnightBoard(4,4);
-
-    System.out.println("Testing toString on a blank board");
-    System.out.println("k\n");
-    System.out.println(k);
-
-    System.out.println("Testing adding a Knight to the board");
-    System.out.println("k.addKnight(0,0) : Should be true");
-    System.out.println(k.addKnight(0,0));
-    System.out.println("k.addKnight(2,1) : Should be true");
-    System.out.println(k.addKnight(2,1));
-    System.out.println("k.addKnight(3,3) : Should be true");
-    System.out.println(k.addKnight(3,3));
-    System.out.println("k\n");
-    System.out.println(k);
-
-    System.out.println("Testing adding a Knight to a place outisde of the board");
-    System.out.println("k.addKnight(-1,0) : Should be false");
-    System.out.println(k.addKnight(-1,0));
-    System.out.println("k\n");
-    System.out.println(k);
-
-    System.out.println("Testing adding a Knight to a place that has already been travled on");
-    System.out.println("k.addKnight(0,0)");
-    System.out.println(k.addKnight(0,0));
-    System.out.println("k\n");
-    System.out.println(k);
-
     System.out.println("Making a new board 5 x 5");
     System.out.println("KnightBoard k2 = new KnightBoard5,5)");
     KnightBoard k2 = new KnightBoard(5,5);
@@ -46,8 +16,8 @@ public class KnightBoard{
     System.out.println("KnightBoard k3 = new KnightBoard(5,5)");
     KnightBoard k3 = new KnightBoard(5,5);
     System.out.println("Testing countSolutions on a board");
-    System.out.println("k2.countSolutions(0,0)");
-    System.out.println(k3.countSolutions(0,0));
+    System.out.println("k2.countSolutions(2,4)");
+    System.out.println(k3.countSolutions(2,4));
     System.out.println("k3\n");
     System.out.println(k3);
 
@@ -61,7 +31,7 @@ public class KnightBoard{
       throw new IllegalArgumentException();
     } else {
       board = new int[startingRows][startingCols];
-      counter = 0;
+      counter = 1;
     }
 
   }
@@ -131,12 +101,13 @@ public class KnightBoard{
        }
      }
    }
+   board[startingRow][startingCol] = counter;
    return solveR(startingRow,startingCol);
 
  }
 
  public boolean solveR(int row, int col){
-   if( counter == board[row].length * board.length - 1){
+   if( counter == board[row].length * board.length){
      return true;
    } else{
      int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
@@ -175,14 +146,14 @@ public class KnightBoard{
 
  public int countH(int row, int col){
    int sum = 0;
-   if( counter == board.length * board[0].length - 1){
+   if( counter == board.length * board[0].length){
      return 1;
    } else {
      int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
      for(int i = 0; i < 15; i += 2){
-       if(addKnight(row,col)){
+       if(addKnight(row + moves[i],col + moves[i+1])){
          sum += countH(row + moves[i], col + moves[i+1]);
-         removeKnight(row,col);
+         removeKnight(row + moves[i], col + moves[i+1]);
        }
      }
    }
@@ -203,15 +174,16 @@ public class KnightBoard{
 
  }
 
-public boolean removeKnight(int row, int col){
-    if(board[row][col] != counter){
-      return false;
-    } else{
-      board[row][col] = 0;
-      counter--;
-      return true;
-    }
-
+ public boolean removeKnight(int row, int col){
+  if(row >= board.length || row < 0 || col >= board[0].length || col < 0){
+    return false;
   }
-
+  if(board[row][col] != counter){
+    return false;
+  }else{
+    board[row][col] = 0;
+    counter--;
+    return true;
+    }
+  }
 }

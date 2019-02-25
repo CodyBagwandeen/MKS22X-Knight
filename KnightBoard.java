@@ -16,13 +16,10 @@ public class KnightBoard{
     System.out.println("KnightBoard k3 = new KnightBoard(5,5)");
     KnightBoard k3 = new KnightBoard(5,5);
     System.out.println("Testing countSolutions on a board");
-    System.out.println("k2.countSolutions(2,4)");
-    System.out.println(k3.countSolutions(2,4));
+    System.out.println("k2.countSolutions(0,0)");
+    System.out.println(k3.countSolutions(0,0));
     System.out.println("k3\n");
     System.out.println(k3);
-
-
-
 
   }
 
@@ -91,13 +88,13 @@ public class KnightBoard{
  @returns true when the board is solvable from the specified starting position
  */
  public boolean solve(int startingRow, int startingCol){
-   if(startingRow < 0 || startingCol < 0){
+   if(startingRow < 0 || startingCol < 0 || startingRow >= board.length || startingCol >= board[0].length){ // starting in board
      throw new IllegalArgumentException();
    }
    for(int r = 0; r < board.length; r++){
      for(int c = 0; c < board[r].length; c++){
        if(board[r][c] != 0){
-         throw new IllegalStateException();
+         throw new IllegalStateException(); // board is clear
        }
      }
    }
@@ -111,7 +108,7 @@ public class KnightBoard{
      return true;
    } else{
      int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
-     for(int i = 0; i < 15; i += 2){
+     for(int i = 0; i < 16; i += 2){
        if(addKnight(row + moves[i], col + moves[i+1])){
          if(solveR(row + moves[i], col + moves[i+1])){
            return true;
@@ -141,21 +138,20 @@ public class KnightBoard{
        }
      }
    }
-   return countH(row, col);
+   return countR(row, col);
  }
 
- public int countH(int row, int col){
+ public int countR(int row, int col){
    int sum = 0;
-   if( counter == board.length * board[0].length){
+   if( counter >= board.length * board[0].length){
      return 1;
-   } else {
-     int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
-     for(int i = 0; i < 15; i += 2){
-       if(addKnight(row + moves[i],col + moves[i+1])){
-         sum += countH(row + moves[i], col + moves[i+1]);
-         removeKnight(row + moves[i], col + moves[i+1]);
-       }
-     }
+   }
+   int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
+   for(int i = 0; i < 16; i += 2){
+    if(addKnight(row + moves[i],col + moves[i+1])){
+     sum += countR(row + moves[i], col + moves[i+1]);
+     removeKnight(row + moves[i], col + moves[i+1]);
+    }
    }
    return sum;
  }

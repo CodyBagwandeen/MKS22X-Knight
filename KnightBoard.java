@@ -1,7 +1,10 @@
 public class KnightBoard{
   private int[][] board;
   private int area;
+  private static int[] moves = {2,1, 1,2, -2,-1, -1,-2, -2,1, 2,-1, -1,2, 1,-2}; // 8 different moves
   public static void main(String[] args){
+
+    System.out.println(moves.length);
 
     System.out.println("Making a new board 5 x 5");
     System.out.println("KnightBoard k2 = new KnightBoard5,5)");
@@ -107,8 +110,7 @@ public class KnightBoard{
    if( counter == board[row].length * board.length){
      return true;
    } else{
-     int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
-     for(int i = 0; i < 16; i += 2){
+     for(int i = 0; i < 15; i += 2){
        if(addKnight(row + moves[i], col + moves[i+1], counter + 1)){
          if(solveR(row + moves[i], col + moves[i+1], counter + 1)){
            return true;
@@ -146,8 +148,7 @@ public class KnightBoard{
    if( counter >= area){
      return 1;
    }
-   int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
-   for(int i = 0; i < 16; i += 2){
+   for(int i = 0; i < 15; i += 2){
     if(addKnight(row + moves[i],col + moves[i+1], counter + 1)){
      sum += countR(row + moves[i], col + moves[i+1], counter + 1);
      removeKnight(row + moves[i], col + moves[i+1], counter + 1);

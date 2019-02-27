@@ -1,6 +1,6 @@
 public class KnightBoard{
   private int[][] board;
-  private int counter;
+  private int area;
   public static void main(String[] args){
 
     System.out.println("Making a new board 5 x 5");
@@ -28,7 +28,7 @@ public class KnightBoard{
       throw new IllegalArgumentException();
     } else {
       board = new int[startingRows][startingCols];
-      counter = 1;
+      area = startingRows * startingCols;
     }
 
   }
@@ -98,22 +98,22 @@ public class KnightBoard{
        }
      }
    }
-   board[startingRow][startingCol] = counter;
-   return solveR(startingRow,startingCol);
+   board[startingRow][startingCol] = 1;
+   return solveR(startingRow,startingCol, 1);
 
  }
 
- public boolean solveR(int row, int col){
+ public boolean solveR(int row, int col, int counter){
    if( counter == board[row].length * board.length){
      return true;
    } else{
      int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
      for(int i = 0; i < 16; i += 2){
-       if(addKnight(row + moves[i], col + moves[i+1])){
-         if(solveR(row + moves[i], col + moves[i+1])){
+       if(addKnight(row + moves[i], col + moves[i+1], counter + 1)){
+         if(solveR(row + moves[i], col + moves[i+1], counter + 1)){
            return true;
          } else{
-           removeKnight(row + moves[i], col + moves[i+1]);
+           removeKnight(row + moves[i], col + moves[i+1], counter + 1);
          }
        }
      }
@@ -138,39 +138,39 @@ public class KnightBoard{
        }
      }
    }
-   return countR(row, col);
+   return countR(row, col, 1);
  }
 
- public int countR(int row, int col){
+ public int countR(int row, int col, int counter){
    int sum = 0;
-   if( counter >= board.length * board[0].length){
+   if( counter >= area){
      return 1;
    }
    int[] moves = {2,1, 1,2, -2,-1, -1,-2, 2,-1, 1,-2, -2,1, -1,2}; // 8 different moves
    for(int i = 0; i < 16; i += 2){
-    if(addKnight(row + moves[i],col + moves[i+1])){
-     sum += countR(row + moves[i], col + moves[i+1]);
-     removeKnight(row + moves[i], col + moves[i+1]);
+    if(addKnight(row + moves[i],col + moves[i+1], counter + 1)){
+     sum += countR(row + moves[i], col + moves[i+1], counter + 1);
+     removeKnight(row + moves[i], col + moves[i+1], counter + 1);
     }
    }
    return sum;
  }
 
- public boolean addKnight(int row, int col){
+ public boolean addKnight(int row, int col, int counter){
    if(row >= board.length || row < 0 || col >= board[0].length || col < 0){
      return false;
    } else{
      if(board[row][col] != 0){
        return false;
      }else{
-       board[row][col] = counter++ + 1;
+       board[row][col] = counter;
        return true;
      }
    }
 
  }
 
- public boolean removeKnight(int row, int col){
+ public boolean removeKnight(int row, int col, int counter){
   if(row >= board.length || row < 0 || col >= board[0].length || col < 0){
     return false;
   }
@@ -178,7 +178,6 @@ public class KnightBoard{
     return false;
   }else{
     board[row][col] = 0;
-    counter--;
     return true;
     }
   }

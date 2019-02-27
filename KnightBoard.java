@@ -145,13 +145,18 @@ public class KnightBoard{
 
  public int countR(int row, int col, int counter){
    int sum = 0;
-   if( counter >= area){
+   if( board[row][col] == 0){
+     if( counter == area){
      return 1;
-   }
-   for(int i = 0; i < 15; i += 2){
-    if(addKnight(row + moves[i],col + moves[i+1], counter + 1)){
-     sum += countR(row + moves[i], col + moves[i+1], counter + 1);
-     removeKnight(row + moves[i], col + moves[i+1], counter + 1);
+    }
+    for(int i = 0; i < 15; i += 2){
+     int tempRow = row + moves[i];
+     int tempCol = col + moves[i+1];
+     if(tempRow >= 0 && tempCol >= 0 && tempRow < board.length && tempCol < board[0].length){
+       board[row][col] = counter;
+       sum += countR( tempRow, tempCol, counter + 1);
+       board[row][col] = 0;
+     }
     }
    }
    return sum;
